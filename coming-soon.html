@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🚀 Coming Soon - Hamzatek</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      .emoji {
+        font-size: 2rem;
+        cursor: pointer;
+      }
+      .disabled {
+        pointer-events: none;
+        opacity: 0.4;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-br from-blue-800 to-indigo-900 text-white min-h-screen flex items-center justify-center p-6"
+  >
+    <div
+      class="w-full max-w-3xl bg-white/10 backdrop-blur-sm rounded-2xl shadow-xl p-8 space-y-6 text-center"
+    >
+      <h1 class="text-4xl font-bold mb-2">🚀 Something Awesome is Coming!</h1>
+      <p class="text-lg text-gray-300">
+        We’re launching soon. Stay tuned and play a quick game while you wait!
+      </p>
+
+      <!-- Countdown Timer -->
+      <div id="countdown" class="text-2xl font-semibold text-yellow-400"></div>
+
+      <!-- Game Area -->
+      <div>
+        <h2 class="text-xl font-bold my-4">🎮 Emoji Match Game</h2>
+        <div
+          id="game"
+          class="grid grid-cols-4 gap-4 justify-center items-center max-w-xs mx-auto mb-4"
+        ></div>
+        <div
+          class="flex justify-between items-center text-sm text-gray-200 mb-2 px-4"
+        >
+          <span>⏱ Time: <span id="timer">30</span>s</span>
+          <span>🏆 High Score: <span id="highScore">0</span></span>
+          <span>🎯 Level: <span id="level">1</span></span>
+        </div>
+        <button
+          onclick="startGame()"
+          class="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg"
+        >
+          Play Again
+        </button>
+      </div>
+
+      <!-- Share Button -->
+      <button
+        onclick="shareLink()"
+        class="mt-4 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg"
+      >
+        🔗 Share This Page
+      </button>
+
+      <!-- Footer -->
+      <p class="text-xs text-gray-400 mt-6">
+        © 2025 Hamzatek. All rights reserved.
+      </p>
+    </div>
+
+    <!-- Sounds -->
+    <audio
+      id="matchSound"
+      src="https://www.soundjay.com/buttons/sounds/button-3.mp3"
+    ></audio>
+    <audio
+      id="failSound"
+      src="https://www.soundjay.com/buttons/sounds/button-10.mp3"
+    ></audio>
+
+    <script>
+      const emojis = ["🍕", "🚀", "🌟", "🎮", "🔥", "🎉", "🧠", "💡"];
+      let firstCard = null;
+      let lock = false;
+      let score = 0;
+      let level = 1;
+      let timer;
+      let timeLeft = 30;
+      let matchSound = document.getElementById("matchSound");
+      let failSound = document.getElementById("failSound");
+
+      const gameContainer = document.getElementById("game");
+
+      function shuffle(array) {
+        return array.sort(() => Math.random() - 0.5);
+      }
+
+      function createGameBoard() {
+        const totalPairs = level + 2;
+        const levelEmojis = shuffle([...emojis]).slice(0, totalPairs);
+        const gameEmojis = shuffle([...levelEmojis, ...levelEmojis]);
+        gameContainer.innerHTML = "";
+        gameEmojis.forEach((emoji, index) => {
+          const div = document.createElement("div");
+          div.className =
+            "emoji bg-white text-black flex items-center justify-center rounded-lg p-4";
+          div.innerHTML = "❓";
+          div.dataset.emoji = emoji;
+          div.dataset.index = index;
+          div.onclick = handleCardClick;
+          gameContainer.appendChild(div);
+        });
+      }
+
+      function handleCardClick(e) {
+        if (lock) return;
+        const card = e.target;
+        if (card.innerHTML !== "❓") return;
+        card.innerHTML = card.dataset.emoji;
+
+        if (!firstCard) {
+          firstCard = card;
+        } else {
+          if (
+            firstCard.dataset.emoji === card.dataset.emoji &&
+            firstCard !== card
+          ) {
+            matchSound.play();
+            firstCard.classList.add("disabled");
+            card.classList.add("disabled");
+            score++;
+            checkGameOver();
+            firstCard = null;
+          } else {
+            lock = true;
+            failSound.play();
+            setTimeout(() => {
+              firstCard.innerHTML = "❓";
+              card.innerHTML = "❓";
+              firstCard = null;
+              lock = false;
+            }, 800);
+          }
+        }
+      }
+
+      function checkGameOver() {
+        const unmatched = [
+          ...document.querySelectorAll(".emoji:not(.disabled)"),
+        ];
+        if (unmatched.length === 0) {
+          clearInterval(timer);
+          level++;
+          saveHighScore(score);
+          setTimeout(() => {
+            alert("Level up! 🎉");
+            document.getElementById("level").textContent = level;
+            timeLeft = 30;
+            score = 0;
+            document.getElementById("timer").textContent = timeLeft;
+            startGame();
+          }, 600);
+        }
+      }
+
+      function startTimer() {
+        timer = setInterval(() => {
+          timeLeft--;
+          document.getElementById("timer").textContent = timeLeft;
+          if (timeLeft <= 0) {
+            clearInterval(timer);
+            alert("Time's up! Try again.");
+            saveHighScore(score);
+          }
+        }, 1000);
+      }
+
+      function saveHighScore(currentScore) {
+        let high = localStorage.getItem("highScore") || 0;
+        if (currentScore > high) {
+          localStorage.setItem("highScore", currentScore);
+          document.getElementById("highScore").textContent = currentScore;
+        }
+      }
+
+      function shareLink() {
+        navigator.clipboard.writeText(window.location.href);
+        alert("Page link copied to clipboard! 🔗");
+      }
+
+      function startGame() {
+        clearInterval(timer);
+        timeLeft = 30;
+        document.getElementById("timer").textContent = timeLeft;
+        document.getElementById("level").textContent = level;
+        createGameBoard();
+        startTimer();
+      }
+
+      function startCountdown(targetDate) {
+        const countdownEl = document.getElementById("countdown");
+        const target = new Date(targetDate).getTime();
+        setInterval(() => {
+          const now = new Date().getTime();
+          const diff = target - now;
+
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor(
+            (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+          countdownEl.innerHTML = `⏳ Launching in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }, 1000);
+      }
+
+      // INIT
+      document.getElementById("highScore").textContent =
+        localStorage.getItem("highScore") || 0;
+      startGame();
+      startCountdown("2025-12-31T00:00:00");
+    </script>
+  </body>
+</html>
