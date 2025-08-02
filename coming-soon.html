@@ -168,12 +168,34 @@
         timer = setInterval(() => {
           timeLeft--;
           document.getElementById("timer").textContent = timeLeft;
+
           if (timeLeft <= 0) {
             clearInterval(timer);
-            alert("Time's up! Try again.");
+            showGameOverMessage("⏰ Time's up! Try again.");
             saveHighScore(score);
           }
         }, 1000);
+      }
+
+      function showGameOverMessage(message) {
+        const messageBox = document.createElement("div");
+        messageBox.innerHTML = `
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white p-6 rounded-lg shadow-lg text-center space-y-4 max-w-sm mx-auto animate-pulse">
+        <h2 class="text-2xl font-bold text-red-600">Game Over</h2>
+        <p class="text-gray-800">${message}</p>
+        <button id="retryBtn" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+          Try Again
+        </button>
+      </div>
+    </div>
+  `;
+        document.body.appendChild(messageBox);
+
+        document.getElementById("retryBtn").addEventListener("click", () => {
+          messageBox.remove();
+          resetGame();
+        });
       }
 
       function saveHighScore(currentScore) {
