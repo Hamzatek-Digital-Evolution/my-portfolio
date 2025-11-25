@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>My Projects | Hamzatek</title>
+
+    <!-- Tailwind CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <style>
+      /* horizontal scroll styling */
+      .scroll-container::-webkit-scrollbar {
+        height: 8px;
+      }
+      .scroll-container::-webkit-scrollbar-track {
+        background: #e5e7eb;
+        border-radius: 10px;
+      }
+      .scroll-container::-webkit-scrollbar-thumb {
+        background: #3b82f6;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-50 text-gray-800">
+    <!-- Header -->
+    <header class="sticky top-0 bg-white shadow z-50">
+      <div
+        class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center"
+      >
+        <a href="index.html" class="flex items-center space-x-2">
+          <img src="logo2.ico" class="w-8 h-8 rounded-xl" />
+          <span class="text-xl font-bold text-blue-600">Hamzatek</span>
+        </a>
+
+        <nav class="hidden md:flex space-x-6 font-medium">
+          <a href="index.html#hero" class="hover:text-blue-600">Home</a>
+          <a href="index.html#about" class="hover:text-blue-600">About</a>
+          <a href="index.html#services" class="hover:text-blue-600">Services</a>
+          <a href="projects.html" class="text-blue-600 font-semibold"
+            >Projects</a
+          >
+          <a href="index.html#contact" class="hover:text-blue-600">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Title -->
+    <section class="py-16">
+      <h1
+        class="text-4xl md:text-5xl font-extrabold text-center text-gray-900"
+        data-aos="fade-up"
+      >
+        My Projects Gallery
+      </h1>
+      <p
+        class="text-center text-gray-600 mt-4 max-w-2xl mx-auto"
+        data-aos="fade-up"
+      >
+        A visual showcase of the systems and platforms I’ve built — each project
+        includes scrollable screenshots for easy viewing.
+      </p>
+    </section>
+
+    <!-- Project Items -->
+    <section class="max-w-7xl mx-auto px-4 space-y-16">
+      <!-- PROJECT 1 -->
+      <div class="space-y-4" data-aos="fade-up">
+        <h2 class="text-2xl font-bold text-gray-900">E-Learning Platform</h2>
+        <p class="text-gray-700">
+          A complete LMS with dashboards, lessons, teacher verification, course
+          modules, and student tracking.
+        </p>
+
+        <!-- scrollable images -->
+        <div class="scroll-container flex space-x-4 overflow-x-auto pb-3">
+          <img
+            src="screenshots/elearning-home.png"
+            class="w-96 rounded-lg shadow"
+            alt="E-Learning Home"
+          />
+          <img
+            src="screenshots/elearning-dashboard.png"
+            class="w-96 rounded-lg shadow"
+            alt="Dashboard"
+          />
+          <img
+            src="screenshots/elearning-lessons.png"
+            class="w-96 rounded-lg shadow"
+            alt="Lessons Page"
+          />
+        </div>
+      </div>
+
+      <!-- PROJECT 2 -->
+      <div class="space-y-4" data-aos="fade-up">
+        <h2 class="text-2xl font-bold text-gray-900">Admin Dashboard System</h2>
+        <p class="text-gray-700">
+          Admin panel for user verification, teacher management, system
+          analytics, and course assignments.
+        </p>
+
+        <div class="scroll-container flex space-x-4 overflow-x-auto pb-3">
+          <img
+            src="screenshots/admin-home.png"
+            class="w-96 rounded-lg shadow"
+            alt="Admin Home"
+          />
+          <img
+            src="screenshots/admin-users.png"
+            class="w-96 rounded-lg shadow"
+            alt="Users Table"
+          />
+          <img
+            src="screenshots/admin-verify.png"
+            class="w-96 rounded-lg shadow"
+            alt="Verify Teachers"
+          />
+        </div>
+      </div>
+
+      <!-- PROJECT 3 -->
+      <div class="space-y-4" data-aos="fade-up">
+        <h2 class="text-2xl font-bold text-gray-900">
+          IT Support Ticket System
+        </h2>
+        <p class="text-gray-700">
+          Internal support solution for recording technical issues and tracking
+          resolution progress.
+        </p>
+
+        <div class="scroll-container flex space-x-4 overflow-x-auto pb-3">
+          <img
+            src="screenshots/ticket-home.png"
+            class="w-96 rounded-lg shadow"
+            alt="Support Home"
+          />
+          <img
+            src="screenshots/ticket-create.png"
+            class="w-96 rounded-lg shadow"
+            alt="Create Ticket"
+          />
+          <img
+            src="screenshots/ticket-status.png"
+            class="w-96 rounded-lg shadow"
+            alt="Track Status"
+          />
+        </div>
+      </div>
+    </section>
+
+    <footer class="py-6 text-center text-gray-600 mt-16">
+      © <span id="year"></span> Hamzatek. All rights reserved.
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
